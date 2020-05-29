@@ -3,8 +3,10 @@
 
 #include "framework.h"
 #include "prac01.h"
-#include "global.h"
 #include <Windows.h>
+
+#include "global.h"
+#include "texture_manager.h"
 
 #define MAX_LOADSTRING 100
 
@@ -20,8 +22,7 @@ LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 
 LPDIRECT3D9         g_pD3D = NULL; 
 LPDIRECT3DDEVICE9   g_pd3dDevice = NULL; 
-LPDIRECT3DTEXTURE9      g_pTexture = NULL; 
-ID3DXSprite* g_pTextSprite = NULL;
+
 
 HRESULT InitD3D(HWND hWnd)
 {

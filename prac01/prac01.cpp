@@ -3,8 +3,8 @@
 
 #include "framework.h"
 #include "prac01.h"
+#include "global.h"
 #include <Windows.h>
-#include <d3dx9.h>
 
 #define MAX_LOADSTRING 100
 
@@ -18,9 +18,9 @@ ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 
-LPDIRECT3D9         g_pD3D = NULL; // Used to create the D3DDevice
-LPDIRECT3DDEVICE9   g_pd3dDevice = NULL; // Our rendering device
-LPDIRECT3DTEXTURE9      g_pTexture = NULL; // Our texture
+LPDIRECT3D9         g_pD3D = NULL; 
+LPDIRECT3DDEVICE9   g_pd3dDevice = NULL; 
+LPDIRECT3DTEXTURE9      g_pTexture = NULL; 
 ID3DXSprite* g_pTextSprite = NULL;
 
 HRESULT InitD3D(HWND hWnd)

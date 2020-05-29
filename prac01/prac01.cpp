@@ -4,7 +4,7 @@
 #include "framework.h"
 #include "prac01.h"
 #include <Windows.h>
-#include <d3d9.h>
+#include <d3dx9.h>
 
 #define MAX_LOADSTRING 100
 
@@ -20,7 +20,8 @@ LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 
 LPDIRECT3D9         g_pD3D = NULL; // Used to create the D3DDevice
 LPDIRECT3DDEVICE9   g_pd3dDevice = NULL; // Our rendering device
-
+LPDIRECT3DTEXTURE9      g_pTexture = NULL; // Our texture
+ID3DXSprite* g_pTextSprite = NULL;
 
 HRESULT InitD3D(HWND hWnd)
 {
@@ -41,13 +42,32 @@ HRESULT InitD3D(HWND hWnd)
     return S_OK;
 }
 
-VOID Render()
+void myStuff() {
+    D3DXCreateSprite(g_pd3dDevice, &g_pTextSprite);
+    D3DXCreateTextureFromFile(g_pd3dDevice, L"player.png", &g_pTexture);
+}
+
+void EngineUpdate() {
+
+}
+
+VOID EngineRender()
 {
     if (NULL == g_pd3dDevice)
         return;
     g_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 255), 1.0f, 0);
     if (SUCCEEDED(g_pd3dDevice->BeginScene()))
     {
+        RECT rect;
+        rect.left = 0;
+        rect.top = 0;
+        rect.right = 41;
+        rect.bottom = 45;
+
+        g_pTextSprite->Begin(D3DXSPRITE_ALPHABLEND);
+        g_pTextSprite->Draw(g_pTexture, &rect, nullptr, nullptr, D3DCOLOR_XRGB(255, 255, 255));
+        g_pTextSprite->End();
+
         g_pd3dDevice->EndScene();
     }
     g_pd3dDevice->Present(NULL, NULL, NULL, NULL);
@@ -82,8 +102,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
-        else
-            Render();
+        else {
+            EngineUpdate();
+            EngineRender();
+        }
     }
 
     return (int) msg.wParam;
@@ -123,6 +145,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    }
 
    InitD3D(hWnd);
+   myStuff();
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
